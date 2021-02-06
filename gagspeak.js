@@ -14,6 +14,8 @@
 
     //changing various parts of the game's code by replacing entire functions with altered ones
     function main() {
+        OldSpeechGarble = SpeechGarble
+
         SpeechGarble = function(C, CD) {
 
             origin = CD;
@@ -402,6 +404,9 @@
             return CD;
 
         }
+
+        NewSpeechGarble = SpeechGarble
+
 
         console.log("k done~~")
     }
