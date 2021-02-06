@@ -17,6 +17,9 @@
     function main() {
 
         ChatRoomActionMessage = function(msg, target = undefined) {
+            // commands defined here are used with /do /command [args]
+            // example /do /bind 1
+            // binds the first player in the room
             if(msg.indexOf('/bind') == 0){
                 //targetting do not change
                 var who = parseInt(msg.substring(msg.indexOf(" ")))
@@ -36,10 +39,19 @@
                 ChatRoomCharacterUpdate(char);
                 msg = Player.Name + ' casts a spell, binding '+ char.Name+ ' in web'
             } else if(msg.indexOf('/sleep')==0){
+                // doesn't seem to work right. need testing
                 var who = parseInt(msg.substring(msg.indexOf(" ")))
                 var char = ChatRoomCharacter[who-1]
                 InventoryWear(char,"RegularSleepingPill",'ItemMouth')
                 ChatRoomCharacterUpdate(char)
+                msg =  Player.Name + ' feeds '+ char.Name+ ' a sleeping pill'
+            } else if(msg.indexOf('gagoff')==0){
+                // if used together with gagspeak code, these work as a toggle
+                window.SpeechGarble = OldSpeechGarble
+                msg = ''
+            } else if(msg.indexOf('gagon')==0){
+                window.SpeechGarble = NewSpeechGarble
+                msg = ''
             }
 
 
@@ -181,7 +193,7 @@
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        console.log("custom commands and spells loaded~~")
+        console.log("k done~~")
     }
 
     //injecting the code in a <script> element into the website DOM
