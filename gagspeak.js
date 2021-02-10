@@ -6,6 +6,7 @@
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
+// @match        https://www.bondageprojects.com/college/*/*/
 // @grant        none
 // ==/UserScript==
 
@@ -16,7 +17,7 @@
     function main() {
         OldSpeechGarble = SpeechGarble
 
-        SpeechGarble = function(C, CD) {
+        SpeechGarble = function(C, CD, NoDeaf = true) {
 
             origin = CD;
 
@@ -35,7 +36,7 @@
             GagEffect += SpeechGetGagLevel(C, "ItemHoodAddon");
 
             // GagTotal4 always returns mmmmm and muffles some frequent letters entirely, 75% least frequent letters
-            if (GagEffect >= 20  || ((C.ID != 0) && (Player.GetDeafLevel() >= 7))) {
+            if (GagEffect >= 20  || ((C.ID != 0) && (Player.GetDeafLevel() >= 7 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -55,7 +56,7 @@
             }
 
             // GagTotal3 always returns mmmmm and muffles some relatively frequent letters entirely, 50% least frequent letters
-            if (GagEffect >= 16  || ((C.ID != 0) && (Player.GetDeafLevel() >= 6))) {
+            if (GagEffect >= 16  || ((C.ID != 0) && (Player.GetDeafLevel() >= 6 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -75,7 +76,7 @@
             }
 
             // GagTotal2 always returns mmmmm and muffles some less frequent letters entirely; 25% least frequent letters
-            if (GagEffect >= 12  || ((C.ID != 0) && (Player.GetDeafLevel() >= 5))) {
+            if (GagEffect >= 12  || ((C.ID != 0) && (Player.GetDeafLevel() >= 5 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -95,7 +96,7 @@
             }
 
             // Total gags always returns mmmmm
-            if ((GagEffect >= 8) || ((C.ID != 0) && (Player.GetDeafLevel() >= 4))) {
+            if ((GagEffect >= 8) || ((C.ID != 0) && (Player.GetDeafLevel() >= 4 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -150,7 +151,7 @@
             }
 
             // Heavy garble - Almost no letter stays the same
-            if ((GagEffect >= 6) || ((C.ID != 0) && (Player.GetDeafLevel() >= 3))) {
+            if ((GagEffect >= 6) || ((C.ID != 0) && (Player.GetDeafLevel() >= 3 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -226,7 +227,7 @@
             }
 
             // Normal garble, keep vowels and a few letters the same
-            if ((GagEffect >= 4) || ((C.ID != 0) && (Player.GetDeafLevel() >= 2))) {
+            if ((GagEffect >= 4) || ((C.ID != 0) && (Player.GetDeafLevel() >= 2 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -314,7 +315,7 @@
             }
 
             // Light garble, half of the letters stay the same
-            if ((GagEffect >= 2) || ((C.ID != 0) && (Player.GetDeafLevel() >= 1))) {
+            if ((GagEffect >= 2) || ((C.ID != 0) && (Player.GetDeafLevel() >= 1 && !NoDeaf))) {
                 for (let L = 0; L < CD.length; L++) {
                     var H = CD.charAt(L).toLowerCase();
                     if (H == "(") Par = true;
@@ -391,8 +392,8 @@
 
                     } else NS = NS + CD.charAt(L);
                     if (H == ")") Par = false;
-                NS = SpeechStutter(C, NS);
                 }
+                NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
                 NS = NS+' ungarbled: '+origin;
                 return NS;
