@@ -17,7 +17,7 @@
     function main() {
         OldSpeechGarble = SpeechGarble
 
-        SpeechGarble = function(C, CD, NoDeaf = true) {
+        SpeechGarble = function(C, CD, NoDeaf) {
 
             origin = CD;
 
@@ -51,7 +51,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -71,7 +73,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -91,7 +95,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -110,7 +116,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -146,7 +154,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -184,7 +194,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -222,7 +234,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -266,7 +280,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -310,7 +326,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -354,7 +372,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
@@ -395,7 +415,9 @@
                 }
                 NS = SpeechStutter(C, NS);
                 NS = SpeechBabyTalk(C, NS);
-                NS = NS+' ungarbled: '+origin;
+                if (origin.charAt(0) != "(") {
+                    NS = NS+' ungarbled: '+origin;
+                }
                 return NS;
             }
 
