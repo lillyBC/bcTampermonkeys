@@ -5,6 +5,7 @@
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
+// @match        https://www.bondageprojects.com/college/*/*/
 // @grant        none
 // ==/UserScript==
 
@@ -52,14 +53,44 @@
             } else if(msg.indexOf('gagon')==0){
                 window.SpeechGarble = NewSpeechGarble
                 msg = ''
-            }
+            } else if(msg.indexOf('/invisible') == 0){
+                var who = parseInt(msg.substring(msg.indexOf(" ")))
+                var char = ChatRoomCharacter[who-1]
 
+                InventoryWear(char, "FuturisticHeels", "ItemBoots");
+                item = InventoryGet(char, "ItemBoots");
+                item.Property = {
+                    Type: "Heel",
+                    Hide: ["Activity", "Corset", "Blush", "BodyLower", "BodyUpper", "Bra", "Cloth", "ClothLower", "ClothAccessory", "Emoticon", "Eyebrows", "Eyes", "Eyes2", "Fluids", "Glasses", "Gloves", "HairAccessory1", "HairAccessory2", "HairAccessory3", "HairBack", "HairFront", "HairBack", "Hands", "Hat", "Head", "ItemAddon", "ItemBreast", "ItemButt", "ItemDevices", "ItemEars", "ItemArms", "ItemFeet", "ItemHands", "ItemHead", "ItemHood", "ItemHoodAddon", "ItemLegs", "ItemMisc", "ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemNeckAccessories", "ItemNeckRestraints", "ItemNipples", "ItemNipplesPiercings", "ItemNose", "ItemPelvis", "ItemTorso", "ItemVulva", "ItemVulvaPiercings", "Mask", "Mouth", "Necklace", "Nipples", "Panties", "Pussy", "Shoes", "Socks", "Suit", "SuitLower", "TailStraps", "Wings"]
+                };
+                item.Color = ['#000','#000','#000']
+               ChatRoomCharacterUpdate(char);
+                msg = ''
+            }
 
             if (msg != "")
                 ServerSend("ChatRoomChat",
                            { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
                                                                            { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                            { Tag: "msg", Text: msg }], Target: target });
+        }
+
+
+        ChatRoomFaceChange = function(msg){
+            if(msg.indexOf('smile')==0){
+                // facial expression
+                CharacterSetFacialExpression(Player, "Mouth", "Smirk")
+                CharacterSetFacialExpression(Player, "Eyes", null)
+                CharacterSetFacialExpression(Player, "Eyebrows", "Lowered")
+                CharacterRefresh(Player)
+                ChatRoomCharacterUpdate(Player)
+            } else if(msg.indexOf('evil')==0){
+                CharacterSetFacialExpression(Player, "Mouth", "Smirk")
+                CharacterSetFacialExpression(Player, "Eyes", null)
+                CharacterSetFacialExpression(Player, "Eyebrows", "Angry")
+                CharacterRefresh(Player)
+                ChatRoomCharacterUpdate(Player)
+            }
         }
 
 
@@ -144,6 +175,7 @@
                 else if (m.indexOf("/friendlistremove ") == 0) ChatRoomListManipulation(null, Player.FriendList, msg);
                 else if (m.indexOf("/ghostadd ") == 0) { ChatRoomListManipulation(Player.GhostList, null, msg); ChatRoomListManipulation(Player.BlackList, Player.WhiteList, msg); }
                 else if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
+                else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
                 else if (m.indexOf("/whitelistremove ") == 0) ChatRoomListManipulation(null, Player.WhiteList, msg);
