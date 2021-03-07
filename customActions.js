@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.3
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -16,6 +16,124 @@
 
     //changing various parts of the game's code by replacing entire functions with altered ones
     function main() {
+
+        /**
+ * d20.js
+ *
+ * Javascript library for rolling dice. Supports strings written in a dice-rolling syntax, eg. "d20", "4d6", "1d8+1".
+ *
+ * @author Michael Enger <mike@thelonelycoder.com>
+ * @licence MIT
+ */
+        var d20 = {
+
+            /**
+     * Roll a number of dice and return the result.
+     *
+     * @param dice Type of dice to roll, can be represented in various formats:
+     *               - a number (6, 12, 42)
+     *               - dice syntax (d20, 4d6, 2d8+2)
+     * @param verbose Whether or not all dice rolls should be returned as an array
+     * @return Number|Array
+     */
+            roll: function(dice, verbose) {
+                var result = d20.verboseRoll(dice),
+                    num = 0;
+
+                if(verbose) {
+                    return result;
+                } else {
+                    for (var i in result) {
+                        num += result[i];
+                    }
+
+                    return num;
+                }
+            },
+
+            /**
+     * Roll a number of dice and return the result as an array.
+     *
+     * @param dice Type of dice to roll, can be represented in various formats:
+     *               - a number (6, 12, 42)
+     *               - dice syntax (d20, 4d6, 2d8+2)
+     * @return Array
+     */
+            verboseRoll: function(dice) {
+                var amount = 1,
+                    mod = 0,
+                    results = [],
+                    match,
+                    num,
+                    modifiers;
+
+                if (!dice) {
+                    throw new Error('Missing dice parameter.');
+                }
+
+                if (typeof dice == 'string') {
+                    match = dice.match(/^\s*(\d+)?\s*d\s*(\d+)\s*(.*?)\s*$/);
+                    if (match) {
+                        if (match[1]) {
+                            amount = parseInt(match[1]);
+                        }
+                        if (match[2]) {
+                            dice = parseInt(match[2]);
+                        }
+                        if (match[3]) {
+                            modifiers = match[3].match(/([+-]\s*\d+)/g);
+                            for (var i = 0; i < modifiers.length; i++) {
+                                mod += parseInt(modifiers[i].replace(/\s/g, ''));
+                            }
+                        }
+                    } else {
+                        parseInt(dice);
+                    }
+                }
+
+                if (isNaN(dice)) {
+                    return [];
+                }
+
+                for (var i = 0; i < amount; i++) {
+                    /* We dont want to ruin verbose, so we dont skip the for loop */
+                    if(dice !== 0){
+                        num = Math.floor(Math.random() * dice + 1);
+                    }else{
+                        num = 0;
+                    }
+                    results.push(num);
+                }
+
+                results = results.sort(function(a, b) {
+                    return a - b;
+                });
+                if (mod != 0) {
+                    results.push(mod);
+                }
+
+                return results;
+            }
+        };
+
+        if (typeof window != 'undefined') {
+            window.d20 = d20;
+        } else if (typeof exports != 'undefined') {
+            for (var k in d20) {
+                exports[k] = d20[k];
+            }
+        }
+
+        ChatroomDnDDice = function(msg){
+            result = d20.roll(msg)
+
+            msg = Player.Name + ' rolls '+ msg +'. The result is: '+ result + '.'
+            ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
+                                                                       { Tag: "msg", Text: msg }], Target: undefined });
+        }
+
 
         ChatRoomActionMessage = function(msg, target = undefined) {
             // commands defined here are used with /do /command [args]
@@ -64,7 +182,7 @@
                     Hide: ["Activity", "Corset", "Blush", "BodyLower", "BodyUpper", "Bra", "Cloth", "ClothLower", "ClothAccessory", "Emoticon", "Eyebrows", "Eyes", "Eyes2", "Fluids", "Glasses", "Gloves", "HairAccessory1", "HairAccessory2", "HairAccessory3", "HairBack", "HairFront", "HairBack", "Hands", "Hat", "Head", "ItemAddon", "ItemBreast", "ItemButt", "ItemDevices", "ItemEars", "ItemArms", "ItemFeet", "ItemHands", "ItemHead", "ItemHood", "ItemHoodAddon", "ItemLegs", "ItemMisc", "ItemMouth", "ItemMouth2", "ItemMouth3", "ItemNeck", "ItemNeckAccessories", "ItemNeckRestraints", "ItemNipples", "ItemNipplesPiercings", "ItemNose", "ItemPelvis", "ItemTorso", "ItemVulva", "ItemVulvaPiercings", "Mask", "Mouth", "Necklace", "Nipples", "Panties", "Pussy", "Shoes", "Socks", "Suit", "SuitLower", "TailStraps", "Wings"]
                 };
                 item.Color = ['#000','#000','#000']
-               ChatRoomCharacterUpdate(char);
+                ChatRoomCharacterUpdate(char);
                 msg = ''
             }
 
@@ -176,6 +294,7 @@
                 else if (m.indexOf("/ghostadd ") == 0) { ChatRoomListManipulation(Player.GhostList, null, msg); ChatRoomListManipulation(Player.BlackList, Player.WhiteList, msg); }
                 else if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
                 else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
+                else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
                 else if (m.indexOf("/whitelistremove ") == 0) ChatRoomListManipulation(null, Player.WhiteList, msg);
