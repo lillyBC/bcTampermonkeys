@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.3
+// @version      1.4
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
 // @match        https://www.bondageprojects.com/college/*/*/
+// @match        https://www.bondageprojects.elementfx.com/*/*/
 // @grant        none
 // ==/UserScript==
 
@@ -123,6 +124,7 @@
                 exports[k] = d20[k];
             }
         }
+        // end of the borrowed dice library
 
         ChatroomDnDDice = function(msg){
             result = d20.roll(msg)
@@ -132,6 +134,14 @@
                        { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
                                                                        { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                        { Tag: "msg", Text: msg }], Target: undefined });
+        }
+
+
+        UsePasswordLock = function(char,target,locker,password,hint){
+            InventoryLock(char, target, "PasswordPadlock",locker)
+            InventoryGet(char, target).Property.Password = password
+            InventoryGet(char, target).Property.Hint = hint
+            InventoryGet(char, target).Property.LockSet = true
         }
 
 
@@ -184,6 +194,37 @@
                 item.Color = ['#000','#000','#000']
                 ChatRoomCharacterUpdate(char);
                 msg = ''
+            } else if(msg.indexOf('/sister')==0){
+                var who = parseInt(msg.substring(msg.indexOf(" ")))
+                var char = ChatRoomCharacter[who-1]
+
+                InventoryWear(char,'CustomCollarTag','ItemNeckAccessories')
+                item = InventoryGet(char, "ItemNeckAccessories");
+                item.Color = ['#515151','#FFFFFF']
+                item.Property = {Text:'SILENCE'}
+                InventoryLock(char, "ItemNeckAccessories", "PasswordPadlock",35758)
+                UsePasswordLock(char,'ItemNeckAccessories',35758,'SHHHHHHH','Vow of Silence')
+
+                InventoryWear(char,"ClothStuffing",'ItemMouth')
+                item = InventoryGet(char, "ItemMouth")
+                item.Color = ["#FFFFFF"]
+
+                InventoryWear(char,"ClothGag",'ItemMouth2')
+                item = InventoryGet(char, "ItemMouth2")
+                item.Color = "#B0B0B0"
+                item.Property = {
+                    Type: "OTM",
+                    Effect: ["GagEasy"]
+                }
+
+
+                InventoryWear(char,'MuzzleGag','ItemMouth3')
+                item = InventoryGet(char, "ItemMouth3")
+                item.Color = ["#1A1A1A", "#1A1A1A"]
+                InventoryLock(char, "ItemMouth3", "PasswordPadlock",35758)
+                UsePasswordLock(char,'ItemMouth3',35758,'SHHHHHHH','Vow of Silence')
+                ChatRoomCharacterUpdate(char);
+                msg = Player.Name+' adorns the gags of the sisterhood'
             }
 
             if (msg != "")
@@ -197,16 +238,65 @@
         ChatRoomFaceChange = function(msg){
             if(msg.indexOf('smile')==0){
                 // facial expression
+                InventoryRemove(Player, "Blush")
+                InventoryRemove(Player, "Fluids")
                 CharacterSetFacialExpression(Player, "Mouth", "Smirk")
                 CharacterSetFacialExpression(Player, "Eyes", null)
                 CharacterSetFacialExpression(Player, "Eyebrows", "Lowered")
                 CharacterRefresh(Player)
                 ChatRoomCharacterUpdate(Player)
             } else if(msg.indexOf('evil')==0){
+                InventoryRemove(Player, "Blush")
+                InventoryRemove(Player, "Fluids")
                 CharacterSetFacialExpression(Player, "Mouth", "Smirk")
                 CharacterSetFacialExpression(Player, "Eyes", null)
                 CharacterSetFacialExpression(Player, "Eyebrows", "Angry")
                 CharacterRefresh(Player)
+                ChatRoomCharacterUpdate(Player)
+            } else if(msg.indexOf('scared')==0){
+                InventoryRemove(Player, "Blush")
+                InventoryRemove(Player, "Fluids")
+                CharacterSetFacialExpression(Player, "Mouth", null)
+                CharacterSetFacialExpression(Player, "Eyes", 'Scared')
+                CharacterSetFacialExpression(Player, "Eyebrows", "Soft")
+                CharacterRefresh(Player)
+                ChatRoomCharacterUpdate(Player)
+            } else if(msg.indexOf('blush')==0){
+                var blush = parseInt(msg.substring(msg.indexOf(" ")))
+                if((blush != "")){
+                    if(blush > 0){
+                        if(blush == 1){
+                            InventoryRemove(Player, "Blush")
+                        } else if(blush == 2){
+                            CharacterSetFacialExpression(Player, "Blush", "Low")
+                        } else if(blush == 3){
+                            CharacterSetFacialExpression(Player, "Blush", "Medium")
+                        } else if(blush == 4){
+                            CharacterSetFacialExpression(Player, "Blush", "High")
+                        } else if(blush == 5){
+                            CharacterSetFacialExpression(Player, "Blush", "VeryHigh")
+                        } else if(blush == 6){
+                            CharacterSetFacialExpression(Player, "Blush", "Extreme")
+                        } else if(blush == 7){
+                            CharacterSetFacialExpression(Player, "Blush", "ShortBreath")
+                        }
+                    }
+                }
+                CharacterRefresh(Player)
+                ChatRoomCharacterUpdate(Player)
+            }
+        }
+
+        ChatRoomWardrobeChange = function(msg) {
+            match = -1
+            Player.WardrobeCharacterNames.forEach(function(name,index){
+                if(name.indexOf(msg) == 0){
+                    console.log(index)
+                    match = index
+                }
+            })
+            if(match != -1){
+                WardrobeFastLoad(Player,match)
                 ChatRoomCharacterUpdate(Player)
             }
         }
@@ -294,6 +384,7 @@
                 else if (m.indexOf("/ghostadd ") == 0) { ChatRoomListManipulation(Player.GhostList, null, msg); ChatRoomListManipulation(Player.BlackList, Player.WhiteList, msg); }
                 else if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
                 else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
+                else if (m.indexOf("/clothes") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
                 else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
