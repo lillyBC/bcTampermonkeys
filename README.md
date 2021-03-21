@@ -11,3 +11,4 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
     - **/face [smile|evil|scared]**: changes expression of the face
     - **/face blush [1-7]**: Sets blush level. 7 is short of breath
     - **/clothes [name]**: Changes player's clothes to the named wardrobe set
+    - **/dndice [dice]**: Slight improvement over the default dice roller. Allow addition of integer modifiers.
