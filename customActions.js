@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.4
+// @version      1.5
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -9,7 +9,6 @@
 // @match        https://www.bondageprojects.elementfx.com/*/*/
 // @grant        none
 // ==/UserScript==
-
 
 
 (function() {
@@ -289,6 +288,20 @@
 
         ChatRoomWardrobeChange = function(msg) {
             match = -1
+            if(msg.indexOf('glassup')==0){
+                InventoryWear(Player,"Glasses1","Glasses")
+                item = InventoryGet(Player, "Glasses")
+                item.Color = ["#745233"]
+                ChatRoomCharacterUpdate(Player)
+            } else if(msg.indexOf('glassdown')==0){
+                InventoryWear(Player,"Glasses2","Glasses")
+                item = InventoryGet(Player, "Glasses")
+                item.Color = ["#745233"]
+                ChatRoomCharacterUpdate(Player)
+            }  else if(msg.indexOf('glassoff')==0){
+                InventoryRemove(Player,'Glasses')
+                ChatRoomCharacterUpdate(Player)
+            }
             Player.WardrobeCharacterNames.forEach(function(name,index){
                 if(name.indexOf(msg) == 0){
                     console.log(index)
@@ -385,6 +398,7 @@
                 else if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
                 else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
                 else if (m.indexOf("/clothes") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
+                else if (m.indexOf("/c") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
                 else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
