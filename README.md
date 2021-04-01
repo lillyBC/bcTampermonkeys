@@ -14,5 +14,5 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
     - **/clothes [name]**: Changes player's clothes to the named wardrobe set
     - **/clothes [glassup|glassdown|glassoff]**: Pushing glasses up and down or taking them off
     - **/dndice [dice]**: Slight improvement over the default dice roller. Allow addition of integer modifiers.
-    - **/csave [name]**: Save current appearance with the name to local storage. Only works if `wardrobe.js` is included
-    - **/cload [name]**: Load appearance with the given name from local storage. Only works if `wardrobe.js` is included
+    - **/save [name]**: Save current appearance with the name to local storage. Only works if `wardrobe.js` is included
+    - **/load [name]**: Load appearance with the given name from local storage. Only works if `wardrobe.js` is included
