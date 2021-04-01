@@ -291,12 +291,12 @@
             if(msg.indexOf('glassup')==0){
                 InventoryWear(Player,"Glasses1","Glasses")
                 item = InventoryGet(Player, "Glasses")
-                item.Color = ["#745233"]
+                item.Color = ["#C09670"]
                 ChatRoomCharacterUpdate(Player)
             } else if(msg.indexOf('glassdown')==0){
                 InventoryWear(Player,"Glasses2","Glasses")
                 item = InventoryGet(Player, "Glasses")
-                item.Color = ["#745233"]
+                item.Color = ["#C09670"]
                 ChatRoomCharacterUpdate(Player)
             }  else if(msg.indexOf('glassoff')==0){
                 InventoryRemove(Player,'Glasses')
@@ -397,8 +397,11 @@
                 else if (m.indexOf("/ghostadd ") == 0) { ChatRoomListManipulation(Player.GhostList, null, msg); ChatRoomListManipulation(Player.BlackList, Player.WhiteList, msg); }
                 else if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
                 else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
+                else if (m.indexOf("/f") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
                 else if (m.indexOf("/clothes") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
                 else if (m.indexOf("/c") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
+                else if (m.indexOf("/csave") == 0) {saveClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local save')}
+                else if (m.indexOf("/cload") == 0) {loadClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local load')}
                 else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
@@ -449,7 +452,7 @@
         }
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
-        console.log("k done~~")
+        console.log("custom actions done")
     }
 
     //injecting the code in a <script> element into the website DOM
