@@ -11,7 +11,7 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
     - **/do [gagon|gagoff]**: Toggles the gagspeak code if `gagspeak.js` is used together with this script
     - **/face [smile|evil|scared]**: changes expression of the face
     - **/face blush [1-7]**: Sets blush level. 7 is short of breath
-    - **/clothes [name]**: Changes player's clothes to the named wardrobe set
+    - **/clothes [name]**: Changes player's clothes to the named wardrobe set. This is the in game wardrobe, not extra storage created by `wardrobe.js`
     - **/clothes [glassup|glassdown|glassoff]**: Pushing glasses up and down or taking them off
     - **/dndice [dice]**: Slight improvement over the default dice roller. Allow addition of integer modifiers.
     - **/save [name]**: Save current appearance with the name to local storage. Only works if `wardrobe.js` is included
