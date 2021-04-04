@@ -16,3 +16,5 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
     - **/dndice [dice]**: Slight improvement over the default dice roller. Allow addition of integer modifiers.
     - **/save [name]**: Save current appearance with the name to local storage. Only works if `wardrobe.js` is included
     - **/load [name]**: Load appearance with the given name from local storage. Only works if `wardrobe.js` is included
+    - **/list**: List saved appearance in local storage. Only works if `wardrobe.js` is included
+    - **/delete [name]**: Delete saved appearance in local storage. Only works if `wardrobe.js` is included
