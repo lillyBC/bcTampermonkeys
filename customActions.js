@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.6
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -314,6 +314,11 @@
             }
         }
 
+        ChatRoomEnergyDrink = function(){
+            LogAdd("ModifierDuration", "SkillModifier", CurrentTime + 3600000); // affects lasts 1 hour
+			LogAdd("ModifierLevel", "SkillModifier", 5)
+        }
+
 
         ChatRoomSendChat =  function() {
 
@@ -402,7 +407,10 @@
                 else if (m.indexOf("/c") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
                 else if (m.indexOf("/save") == 0) {saveClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local save')}
                 else if (m.indexOf("/load") == 0) {loadClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local load')}
+                else if (m.indexOf("/list") == 0) {listClothes();console.log('list clothes')}
+                else if (m.indexOf("/delete") == 0) {deleteClothes(msg.substring(msg.indexOf(" ")).trim());console.log('list clothes')}
                 else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
+                else if (m.indexOf("/energy") == 0) {ChatRoomEnergyDrink();console.log('energy drink')}
                 else if (m.indexOf("/ghostremove ") == 0) { ChatRoomListManipulation(null, Player.GhostList, msg); ChatRoomListManipulation(null, Player.BlackList, msg); }
                 else if (m.indexOf("/whitelistadd ") == 0) ChatRoomListManipulation(Player.WhiteList, Player.BlackList, msg);
                 else if (m.indexOf("/whitelistremove ") == 0) ChatRoomListManipulation(null, Player.WhiteList, msg);
