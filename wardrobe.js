@@ -2,7 +2,7 @@
 // @name         Wardrobe
 // @namespace    http://tampermonkey.net/
 // @description  Adds two functions to save and load clothes from local storage
-// @version      1.1
+// @version      1.2
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -36,42 +36,51 @@
 
         loadClothes = function(name){
             clothes = GM_SuperValue.get(name)
-            C = Player
-            C.Appearance = C.Appearance
-                .filter(a => a.Asset.Group.Category != "Appearance" || !WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: true }))
-            clothes
-                .filter(w => w.Name != null && w.Group != null)
-                .filter(w => C.Appearance.find(a => a.Asset.Group.Name == w.Group) == null)
-                .forEach(w => {
-                var A = Asset.find(a =>
-                                   a.Group.Name == w.Group
-                                   && a.Group.Category == "Appearance"
-                                   && WardrobeGroupAccessible(C, a.Group, { ExcludeNonCloth: true })
-                                   && a.Name == w.Name
-                                   && (a.Value == 0 || InventoryAvailable(Player, a.Name, a.Group.Name)));
-                if (A != null) {
-                    CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
-                    if (w.Property && InventoryGet(C, w.Group)) {
-                        var item = InventoryGet(C, w.Group);
-                        if (item.Property == null) item.Property = {};
-                        for (const key in w.Property) item.Property[key] = w.Property[key];
+            if (clothes != undefined){
+
+                C = Player
+                C.Appearance = C.Appearance
+                    .filter(a => a.Asset.Group.Category != "Appearance" || !WardrobeGroupAccessible(C, a.Asset.Group, { ExcludeNonCloth: true }))
+                clothes
+                    .filter(w => w.Name != null && w.Group != null)
+                    .filter(w => C.Appearance.find(a => a.Asset.Group.Name == w.Group) == null)
+                    .forEach(w => {
+                    var A = Asset.find(a =>
+                                       a.Group.Name == w.Group
+                                       && a.Group.Category == "Appearance"
+                                       && WardrobeGroupAccessible(C, a.Group, { ExcludeNonCloth: true })
+                                       && a.Name == w.Name
+                                       && (a.Value == 0 || InventoryAvailable(Player, a.Name, a.Group.Name)));
+                    if (A != null) {
+                        CharacterAppearanceSetItem(C, w.Group, A, w.Color, 0, null, false);
+                        if (w.Property && InventoryGet(C, w.Group)) {
+                            var item = InventoryGet(C, w.Group);
+                            if (item.Property == null) item.Property = {};
+                            for (const key in w.Property) item.Property[key] = w.Property[key];
+                        }
                     }
-                }
-            });
-            // Adds any critical appearance asset that could be missing, adds the default one
-            AssetGroup
-                .filter(g => g.Category == "Appearance" && !g.AllowNone)
-                .forEach(g => {
-                if (C.Appearance.find(a => a.Asset.Group.Name == g.Name) == null) {
-                    // For a group with a mirrored group, we copy the opposite if it exists
-                    if (g.MirrorGroup && InventoryGet(C, g.MirrorGroup)) {
-                        C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name && a.Name == InventoryGet(C, g.MirrorGroup).Asset.Name), Difficulty: 0, Color: InventoryGet(C, g.MirrorGroup).Color });
-                    } else {
-                        C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name), Difficulty: 0, Color: "Default" });
+                });
+                // Adds any critical appearance asset that could be missing, adds the default one
+                AssetGroup
+                    .filter(g => g.Category == "Appearance" && !g.AllowNone)
+                    .forEach(g => {
+                    if (C.Appearance.find(a => a.Asset.Group.Name == g.Name) == null) {
+                        // For a group with a mirrored group, we copy the opposite if it exists
+                        if (g.MirrorGroup && InventoryGet(C, g.MirrorGroup)) {
+                            C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name && a.Name == InventoryGet(C, g.MirrorGroup).Asset.Name), Difficulty: 0, Color: InventoryGet(C, g.MirrorGroup).Color });
+                        } else {
+                            C.Appearance.push({ Asset: Asset.find(a => a.Group.Name == g.Name), Difficulty: 0, Color: "Default" });
+                        }
                     }
-                }
-            });
-            ChatRoomCharacterUpdate(C)
+                });
+                ChatRoomCharacterUpdate(C)
+            } else{
+                msg = GM_listValues().join(', ')
+                ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
+                                                                       { Tag: "msg", Text: name+ " not found. Saved clothes: " +  msg }], Target: Player.MemberNumber });
+            }
         }
 
         listClothes = function(){
