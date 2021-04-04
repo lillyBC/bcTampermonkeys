@@ -2,7 +2,7 @@
 // @name         Wardrobe
 // @namespace    http://tampermonkey.net/
 // @description  Adds two functions to save and load clothes from local storage
-// @version      1.0
+// @version      1.1
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -10,6 +10,8 @@
 // @match        https://www.bondageprojects.elementfx.com/*/*/
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_listValues
+// @grant        GM_deleteValue
 // @grant        unsafeWindow
 // @require      http://userscripts-mirror.org/scripts/source/107941.user.js
 // ==/UserScript==
@@ -18,6 +20,8 @@
 (function() {
     unsafeWindow.GM_setValue = GM_setValue
     unsafeWindow.GM_getValue = GM_getValue
+    unsafeWindow.GM_listValues = GM_listValues
+    unsafeWindow.GM_deleteValue = GM_deleteValue
     unsafeWindow.GM_SuperValue = GM_SuperValue
     //changing various parts of the game's code by replacing entire functions with altered ones
     function main() {
@@ -68,6 +72,23 @@
                 }
             });
             ChatRoomCharacterUpdate(C)
+        }
+
+        listClothes = function(){
+            msg = GM_listValues().join(', ')
+            ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
+                                                                       { Tag: "msg", Text: "Saved Clothes: " +  msg }], Target: Player.MemberNumber });
+        }
+
+        deleteClothes = function(name){
+            GM_deleteValue(name)
+            msg = GM_listValues().join(', ')
+            ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
+                                                                       { Tag: "msg", Text: "Saved Clothes: " +  msg }], Target: Player.MemberNumber });
         }
         console.log("wardrobe done")
     }
