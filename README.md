@@ -1,6 +1,6 @@
 # bcTampermonkeys
 
-These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club.
+These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club. Feel free to use for your own purposes as is, in part or with modifications.
 
 * **gagspeak:** Adds a translated version of gag speech to the garbled messages. Also works against deafness
 * **wardrobe:** Adds functions to save appearance to local storage
