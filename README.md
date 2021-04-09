@@ -4,6 +4,7 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
 
 * **gagspeak:** Adds a translated version of gag speech to the garbled messages. Also works against deafness
 * **wardrobe:** Adds functions to save appearance to local storage
+* **autorelog:** Adds a function `autoRelog` to relog automatically after a logout. This is not hooked to `customActions.js` since you don't want to be typing your password into the chat window.
 * **customActions:** Allows you to include custom actions that output action text and/or execute custom code. For your messages only
     - **/do [text]**: Returns the written text as action text (eg. `/do Lilly ate an apple` will print `(Lilly ate an apple)` on chat)
     - **/do /bind [PlayerIndex]**: Binds the numbered player in the chatroom in wooden restraints
