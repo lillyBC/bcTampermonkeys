@@ -343,6 +343,7 @@
             if(!sentToOriginal){
                 ChatRoomLastMessage.push(msg);
                 ChatRoomLastMessageIndex = ChatRoomLastMessage.length;
+                ElementValue("InputChat", "");
             }
         }
 
