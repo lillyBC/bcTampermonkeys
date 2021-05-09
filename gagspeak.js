@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BC gag speak
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  For understanding gag speach
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
@@ -32,7 +32,7 @@
             GagEffect += SpeechGetGagLevel(C, "ItemDevices");
             GagEffect += SpeechGetGagLevel(C, "ItemHoodAddon");
 
-            if(GagEffect>0 && origin.charAt(0)!='('){
+            if((GagEffect>0 || Player.GetDeafLevel()>0) && origin.charAt(0)!='('){
                     out = out+' ungarbled: '+ origin;
             }
             return out;
