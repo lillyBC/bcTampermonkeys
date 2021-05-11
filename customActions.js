@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.7
+// @version      1.8
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -131,8 +131,7 @@
             msg = Player.Name + ' rolls '+ msg +'. The result is: '+ result + '.'
             ServerSend("ChatRoomChat",
                        { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
-                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
-                                                                       { Tag: "msg", Text: msg }], Target: undefined });
+                                                                       { Tag: "msg", Text: msg }], Target: target });
         }
 
 
@@ -229,7 +228,6 @@
             if (msg != "")
                 ServerSend("ChatRoomChat",
                            { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
-                                                                           { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                            { Tag: "msg", Text: msg }], Target: target });
         }
 
