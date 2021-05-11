@@ -2,7 +2,7 @@
 // @name         Wardrobe
 // @namespace    http://tampermonkey.net/
 // @description  Adds two functions to save and load clothes from local storage
-// @version      1.2
+// @version      1.3
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -78,7 +78,6 @@
                 msg = GM_listValues().join(', ')
                 ServerSend("ChatRoomChat",
                        { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
-                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                        { Tag: "msg", Text: name+ " not found. Saved clothes: " +  msg }], Target: Player.MemberNumber });
             }
         }
@@ -87,7 +86,6 @@
             msg = GM_listValues().join(', ')
             ServerSend("ChatRoomChat",
                        { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
-                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                        { Tag: "msg", Text: "Saved Clothes: " +  msg }], Target: Player.MemberNumber });
         }
 
@@ -96,7 +94,6 @@
             msg = GM_listValues().join(', ')
             ServerSend("ChatRoomChat",
                        { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
-                                                                       { Tag: "Biep", Text: "msg" }, { Tag: "Sonner", Text: "msg" },
                                                                        { Tag: "msg", Text: "Saved Clothes: " +  msg }], Target: Player.MemberNumber });
         }
         console.log("wardrobe done")
