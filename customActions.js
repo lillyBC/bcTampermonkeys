@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.8
+// @version      1.9
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -317,6 +317,19 @@
             LogAdd("ModifierLevel", "SkillModifier", 5)
         }
 
+        ChatRoomPoof = function(msg){
+            if(msg == '/poof'){
+                ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "msg", Text: Player.Name + ' poofs away' }], Target: null });
+            } else{
+                ServerSend("ChatRoomChat",
+                       { Content: "Beep", Type: "Action", Dictionary: [{ Tag: "Beep", Text: "msg" },
+                                                                       { Tag: "msg", Text: msg }], Target: null });
+            }
+            RelogExit()
+        }
+
         OriginalChatroomSendChat = ChatRoomSendChat
         ChatRoomSendChat = function(){
             var msg = ElementValue("InputChat").trim()
@@ -333,6 +346,8 @@
             else if (m.indexOf("/list") == 0) {listClothes();console.log('list clothes')}
             else if (m.indexOf("/delete") == 0) {deleteClothes(msg.substring(msg.indexOf(" ")).trim());console.log('list clothes')}
             else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
+            else if (m.indexOf("/energy") == 0) {ChatRoomEnergyDrink(msg.substring(msg.indexOf(" ")).trim());console.log('energy drink')}
+            else if (m.indexOf("/poof") == 0) {ChatRoomPoof(msg.substring(msg.indexOf(" ")).trim());console.log('poof')}
             else{
                 sentToOriginal = true
                 OriginalChatroomSendChat()
@@ -344,6 +359,7 @@
                 ElementValue("InputChat", "");
             }
         }
+        AsylumEntranceCanWander = () => true
 
         //---------------------------------------------------------------------------------------------------------------------------------------------
         console.log("custom actions done")
