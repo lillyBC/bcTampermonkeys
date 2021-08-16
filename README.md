@@ -21,3 +21,4 @@ These are [tampermonkey](https://www.tampermonkey.net/) scripts for Bondage Club
     - **/load [name]**: Load appearance with the given name from local storage. Only works if `wardrobe.js` is included
     - **/list**: List saved appearance in local storage. Only works if `wardrobe.js` is included
     - **/delete [name]**: Delete saved appearance in local storage. Only works if `wardrobe.js` is included
+    - **/poof [message(optional)]**: Disconnect from the game leaving an action message behind
