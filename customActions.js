@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Custom Actions and spells
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      1.10
 // @author       Lilly
 // @match        https://www.bondageprojects.elementfx.com/*/BondageClub/
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
@@ -336,16 +336,16 @@
             var m = msg.toLowerCase().trim();
             sentToOriginal = false
 
-            if (m.indexOf("/do") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
-            else if (m.indexOf("/face") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
-            else if (m.indexOf("/f") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
-            else if (m.indexOf("/clothes") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
-            else if (m.indexOf("/c") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
-            else if (m.indexOf("/save") == 0) {saveClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local save')}
-            else if (m.indexOf("/load") == 0) {loadClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local load')}
+            if (m.indexOf("/do ") == 0) {ChatRoomActionMessage(msg.substring(msg.indexOf(" ")).trim());console.log('action attempt')}
+            else if (m.indexOf("/face ") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
+            else if (m.indexOf("/f ") == 0) {ChatRoomFaceChange(msg.substring(msg.indexOf(" ")).trim());console.log('expression change')}
+            else if (m.indexOf("/clothes ") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
+            else if (m.indexOf("/c ") == 0) {ChatRoomWardrobeChange(msg.substring(msg.indexOf(" ")).trim());console.log('cloth change')}
+            else if (m.indexOf("/save ") == 0) {saveClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local save')}
+            else if (m.indexOf("/load ") == 0) {loadClothes(msg.substring(msg.indexOf(" ")).trim());console.log('local load')}
             else if (m.indexOf("/list") == 0) {listClothes();console.log('list clothes')}
-            else if (m.indexOf("/delete") == 0) {deleteClothes(msg.substring(msg.indexOf(" ")).trim());console.log('list clothes')}
-            else if (m.indexOf("/dndice") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
+            else if (m.indexOf("/delete ") == 0) {deleteClothes(msg.substring(msg.indexOf(" ")).trim());console.log('list clothes')}
+            else if (m.indexOf("/dndice ") == 0) {ChatroomDnDDice(msg.substring(msg.indexOf(" ")).trim());console.log('dice roll')}
             else if (m.indexOf("/energy") == 0) {ChatRoomEnergyDrink(msg.substring(msg.indexOf(" ")).trim());console.log('energy drink')}
             else if (m.indexOf("/poof") == 0) {ChatRoomPoof(msg.substring(msg.indexOf(" ")).trim());console.log('poof')}
             else{
