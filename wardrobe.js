@@ -8,6 +8,7 @@
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
 // @match        https://www.bondageprojects.com/college/*/*/
 // @match        https://www.bondageprojects.elementfx.com/*/*/
+// @match        https://www.bondage-europe.com/*/*/
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues
