@@ -8,6 +8,7 @@
 // @match        *://www.bondageprojects.com/college/*/BondageClub/
 // @match        https://www.bondageprojects.com/college/*/*/
 // @match        https://www.bondageprojects.elementfx.com/*/*/
+// @match        https://www.bondage-europe.com/*/*/
 // @grant        none
 // ==/UserScript==
 
